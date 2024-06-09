@@ -50,13 +50,13 @@ def get_embeddings(chunks):
 #####################################################
 def get_conversational_chain():
     prompt_temp = '''
-    Answer the question as detailed as possible from the provided context, make sure to provide all the details without adding extra info
-    from the provided context. If the answer is not in the provided context then just say, "Answer is not available in the provided context."
-    Please dont provide wrong answers.
+    Answer the question from the provided context. Try to answer in as detailed manner as possible from the provided context.
+    If the answer to the question is not known from the provided context, then dont provide wrong answers, in that case just say,
+    'Answer to the question is not available in the provided document. Feel free to ask question from the provided context.'
     Context:\n{context}?\n
     Question:\n{question}\n
     '''
-    model = ChatGoogleGenerativeAI(model='gemini-pro', temperature=0)
+    model = ChatGoogleGenerativeAI(model='gemini-pro', temperature=0.5)
 
     prompt = PromptTemplate(
         template=prompt_temp,
