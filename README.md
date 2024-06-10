@@ -2,7 +2,7 @@
 
 ![Chat With PDF Using Gemini](workflow.png)
 
-It is a Streamlit application that facilitates interaction with PDF documents by extracting text and providing responses to user questions. The application utilizes the capabilities of the Google Generative AI model (Gemini) for question answering and utilizes the FAISS library for efficient text embedding similarity search.
+It is a Streamlit based RAG application that facilitates interaction with PDF documents by extracting text and providing responses to user questions. The application utilizes the capabilities of the Google Generative AI model (Gemini) for question answering and utilizes the FAISS library for efficient text embedding similarity search.
 
 ## Introduction
 
