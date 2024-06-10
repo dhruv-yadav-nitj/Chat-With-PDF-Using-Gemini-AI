@@ -28,7 +28,7 @@ def get_pdf_text(docs):
 
 
 #####################################################
-# DIVIDE THE TEXT FROM PDFs INTO CHUNKS
+# FUNCTION TO DIVIDE THE TEXT FROM PDFs INTO SMALLER CHUNKS
 #####################################################
 def get_text_chunks(text):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
@@ -37,7 +37,7 @@ def get_text_chunks(text):
 
 
 #####################################################
-# GET TEXT EMBEDDINGS USING GEMINI MODEL
+# GET TEXT EMBEDDINGS USING GEMINI MODEL & PREPARING THE VECTOR DATABASE
 #####################################################
 def get_embeddings(chunks):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
@@ -56,12 +56,12 @@ def get_conversational_chain():
     Context:\n{context}?\n
     Question:\n{question}\n
     '''
-    model = ChatGoogleGenerativeAI(model='gemini-pro', temperature=0.5)
-
     prompt = PromptTemplate(
         template=prompt_temp,
         input_variables=['context', 'question']
     )
+
+    model = ChatGoogleGenerativeAI(model='gemini-pro', temperature=0.5)
 
     chain = load_qa_chain(model, chain_type='stuff', prompt=prompt)
     return chain
@@ -73,7 +73,7 @@ def get_conversational_chain():
 def get_response(user_input):
     embedding = GoogleGenerativeAIEmbeddings(model='models/embedding-001')
     new_db = FAISS.load_local('faiss_index', embedding, allow_dangerous_deserialization=True)
-    docs = new_db.similarity_search(user_input)
+    docs = new_db.similarity_search(user_input)  # conversion of 'user_input' into embeddings happens implicitly within the 'similarity_search' method
     chain = get_conversational_chain()
     response = chain(
         {'input_documents': docs, 'question': user_input},
